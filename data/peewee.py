@@ -1,5 +1,4 @@
 from peewee import *
-import psycopg2
 from data import config
 
 db = PostgresqlDatabase(
