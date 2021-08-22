@@ -4,7 +4,7 @@ load_dotenv()
 
 BOT_TOKEN = ''
 admins = [
-742184966
+
 ]
 
 PG_USER = 'postgres'
