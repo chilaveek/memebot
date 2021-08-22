@@ -1,6 +1,6 @@
 from peewee import *
 from data import config
-
+import psycopg2
 db = PostgresqlDatabase(
     'humans',
     port=5432,
