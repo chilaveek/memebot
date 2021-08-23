@@ -21,3 +21,9 @@ class Human(Model):
     void = IntegerField(null=True)
     class Meta:
         database = db
+
+class Words(Model):
+    id_primary = PrimaryKeyField(primary_key=1)
+    phrase = CharField()
+    class Meta:
+        database = db

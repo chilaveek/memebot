@@ -3,8 +3,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command
 
 from data.config import admins
-from data.demotivator_words import words
-from data.peewee import Human
+from data.peewee import Human, Words
 from keyboards.default.menu import menu_kb
 from loader import dp
 from states.list_append import ListOperations
@@ -40,9 +39,12 @@ async def append(message: types.Message):
 async def append(message: types.Message):
     human = Human.get(id=message.from_user.id)
     if human.id in admins:
-        dem_words = 'Список фраз. Всего фраз: ' + str(len(words))
-        for i in range(len(words)):
-            dem_words += '\n ' + ' ' + str(i+1) + '. ' + words[i]
+
+        dem_words = 'Список фраз.'
+        i = 0
+        for word in Words.select():
+            i += 1
+            dem_words += '\n ' + ' ' + str(i) + '. ' + word.phrase
         await message.answer(text=dem_words)
 
 @dp.message_handler(Command('users'))
@@ -64,7 +66,8 @@ async def users(message: types.Message):
 @dp.message_handler(state=ListOperations.append)
 async def list_append(message: types.Message, state: FSMContext):
     msg = message.text
-    words.append(msg)
+    i = 0
+    Words.create(phrase=msg)
     await message.answer(text='Добавлено успешно!')
     await state.finish()
 
@@ -95,10 +98,19 @@ async def users(message: types.Message):
 @dp.message_handler(state=ListOperations.delete)
 async def delete_word(message: types.Message, state: FSMContext):
     index = message.text
-    if index.isdigit() is True and index <= len(words) - 1:
-        words.pop(index-1)
-        await message.answer(text='Прекрасно, админчик, ты удалил слово под индексом ' + str(index))
+    q = 0
+    for phrase in Words.select():
+        q += 1
+
+    if index.isdigit() is True:
+        if int(index) <= q:
+            delword = Words.get(id_primary=index)
+            delword.delete_instance()
+            await message.answer(text='Прекрасно, админчик, ты удалил слово под индексом ' + str(index))
+        else:
+            await message.answer(
+                text='Ошибочка произшла в указании индекса (число больше размера списка), если так надо, введите команду /delword ещё раз')
     else:
-        await message.answer(text='Ошибочка произшла в указании индекса, если так надо, введите команду /delword ещё раз')
+        await message.answer(text='Ошибочка произшла в указании индекса, если нужно, введите команду /delword ещё раз и индекс укажите числом')
 
     await state.finish()

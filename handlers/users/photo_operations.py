@@ -7,8 +7,7 @@ from aiogram.types import CallbackQuery
 
 from PhotoEditor.demotivator import demotivator_create
 from PhotoEditor.shakalizator import shakalizator
-from data.demotivator_words import words
-from data.peewee import Human
+from data.peewee import Human, Words
 from keyboards.inline.inline_kb import mode_choice
 from loader import dp
 
@@ -47,12 +46,19 @@ async def photo_operation(message: types.Message):
 
     elif human.mode == 'Демотиватор':
         # await DemotivatorText.text1.set()
-        text1, text2 = random.choice(words), random.choice(words)
+        i = 0
+        for phrase in Words.select():
+            i += 1
+
+        wrd1, wrd2 = Words.get(id_primary=random.randint(1, i)), Words.get(id_primary=random.randint(1, i))
+        text1, text2 = wrd1.phrase, wrd2.phrase
+
         if text1 == text2:
             while text1 == text2:
-                text2 = random.choice(words)
+                wrd2 = Words.get(id_primary=random.randint(1, i))
+                text2 = wrd2.phrase
 
-        name = demotivator_create(file_name, text1, text2 )
+        name = demotivator_create(file_name, text1, text2)
         photo = open(name, 'rb')
         await message.answer_photo(photo=photo)
         os.remove('PhotoEditor/sent_photos/' + file_name)
