@@ -7,4 +7,5 @@ async def set_default_commands(dp):
         types.BotCommand("help", "Помощь"),
         types.BotCommand("menu", "Показать меню"),
         types.BotCommand("name", "Сменить имя"),
+        types.BotCommand("help_admins", "help для админчиков")
     ])

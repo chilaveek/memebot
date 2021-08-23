@@ -13,11 +13,11 @@ from states.start_test import StartTest
 
 @dp.message_handler(Command('menu'))
 async def menu_show(message: types.Message):
-    await message.answer('У вас что, меню закрылось? Жесть, ну тогда верну',reply_markup=menu_kb)
+    await message.answer('У тебя что, меню закрылось? Жесть, ну тогда верну',reply_markup=menu_kb)
 
 @dp.message_handler(Command('name'))
 async def name_change(message: types.Message):
-    await message.answer('Хотите сменить имя? Хорошо, тогда следующим предложением напишите мне, как вас называть')
+    await message.answer('Хочешь сменить имя? Хорошо, тогда следующим предложением напиши мне, как тебя называть')
     await StartTest.name_change.set()
 
 @dp.message_handler(state=StartTest.name_change)
@@ -26,7 +26,7 @@ async def name_change_final(message: types.Message, state: FSMContext):
     human = Human.get(id=message.from_user.id)
     human.name = name
     human.save()
-    await message.answer(text=f'Теперь буду называть вас {human.name}... Скрываетесь от кого-то?')
+    await message.answer(text=f'Теперь буду называть тебя {human.name}... Скрываешься от кого-то?')
     await state.finish()
 
 @dp.message_handler(Command('new'))
@@ -72,7 +72,7 @@ async def list_append(message: types.Message, state: FSMContext):
 async def help_admins(message: types.Message):
     admin = Human.get(id=message.from_user.id)
     if admin.id in admins:
-        await message.answer(text=f'Серьёзно? Ты, {admin.name} админ и не знаешь свои команды наизусть??!'
+        await message.answer(text=f'Серьёзно? Ты, {admin.name}, админ и не знаешь свои команды наизусть??!'
                                   f'\n---\n'
                                   f'\n/words - Список фраз для демотиватора'
                                   f'\n/new - Добавить <b>одну</b> фразу'

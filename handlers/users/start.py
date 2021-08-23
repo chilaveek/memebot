@@ -25,7 +25,7 @@ async def name_save(message: types.Message):
     human.name = name
     human.save()
 
-    await message.answer(text=f'Приятно, познакомиться, {human.name}! Смена имени кстати возможна по команде /name \n'
+    await message.answer(text=f'Какое красивое имя, {human.name}! Смена имени кстати возможна по команде /name \n'
                                  f'Теперь разберёмся с твоим возрастом, сколько тебе лет?', reply_markup=menu_kb)
     await StartTest.age.set()
 
@@ -43,7 +43,7 @@ async def age_save(message: types.Message, state=FSMContext):
         await state.finish()
 
     else:
-        await message.answer('Похоже, вы прислали символы или число, содержащее символы. Напишите ещё раз свой возраст')
+        await message.answer('Похоже, ты прислал символы или число, содержащее символы. Напиши-ка ещё раз свой возраст')
         await StartTest.age.set()
 
 
