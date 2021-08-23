@@ -40,7 +40,9 @@ async def append(message: types.Message):
 async def append(message: types.Message):
     human = Human.get(id=message.from_user.id)
     if human.id in admins:
-        dem_words = str('//'.join(words))
+        dem_words = 'Список фраз. Всего фраз: ' + str(len(words))
+        for i in range(len(words)):
+            dem_words += '\n' + str(i+1) + words[i]
         await message.answer(text=dem_words)
 
 
