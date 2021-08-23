@@ -2,9 +2,12 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command
 
+from data.config import admins
+from data.demotivator_words import words
 from data.peewee import Human
 from keyboards.default.menu import menu_kb
 from loader import dp
+from states.list_append import ListAppend
 from states.start_test import StartTest
 
 
@@ -26,3 +29,17 @@ async def name_change_final(message: types.Message, state: FSMContext):
     await message.answer(text=f'Теперь буду называть вас {human.name}... Скрываетесь от кого-то?')
     await state.finish()
 
+@dp.message_handler(Command('new'))
+async def append(message: types.Message):
+    human = Human.get(id=message.from_user.id)
+    if human.id in admins:
+        await message.answer(text='круто, админчик. Пришли одну (пока что) фразу для добавления в следующем сообщении')
+        await ListAppend.msg.set()
+
+dp.message_handler(state=ListAppend.msg)
+async def list_append(message: types.Message, state: FSMContext):
+    msg = message.text
+    words.append(msg)
+    await message.answer(text='Добавлено успешно!')
+    await message.answer(text=words)
+    await state.finish()
