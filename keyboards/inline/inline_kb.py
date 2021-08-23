@@ -23,8 +23,6 @@ start_kb = InlineKeyboardMarkup(row_width=2).row(
 mode_choice = InlineKeyboardMarkup(row_width=1).add(
 InlineKeyboardButton(text='Шакализатор', callback_data='shakalizator'),
     InlineKeyboardButton(text='Демотиватор', callback_data='demotivator'),
-    InlineKeyboardButton(text='Никто/Абсолютно Никто', callback_data='nobody'),
-    InlineKeyboardButton(text='>', callback_data='>')
 
 )
 
