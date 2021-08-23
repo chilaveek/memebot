@@ -12,8 +12,7 @@ from states.start_test import StartTest
 
 @dp.message_handler(CommandStart(), state=None)
 async def bot_start(message: types.Message):
-    human = Human.get_or_create(id=message.from_user.id, username=message.from_user.username)
-    human.save()
+    Human.get_or_create(id=message.from_user.id, username=message.from_user.username)
     await message.answer(f'Приветствую! Как я могу к тебе обращаться?', reply_markup=menu_kb)
 
     await StartTest.name.set()
