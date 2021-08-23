@@ -25,7 +25,7 @@ async def name_save(message: types.Message):
     human.name = name
     human.save()
 
-    await message.answer(text=f'Приятно, познакомиться, {human.name}! Смена имени кстати возможна по команде /name'
+    await message.answer(text=f'Приятно, познакомиться, {human.name}! Смена имени кстати возможна по команде /name \n'
                                  f'Теперь разберёмся с твоим возрастом, сколько тебе лет?', reply_markup=menu_kb)
     await StartTest.age.set()
 
