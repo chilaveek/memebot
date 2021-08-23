@@ -54,8 +54,8 @@ async def users(message: types.Message):
         for user in Human.select():
             i += 1
             human = Human.get(id=user.id)
-            users_message += '\nid: ' + human.id + ', username: ' + human.username + ', name: ' + human.name + ', age: ' \
-            + human.age
+            users_message += '\nid: ' + str(human.id) + ', username: ' + human.username + ', name: ' + human.name + ', age: ' \
+            + str(human.age)
 
         users_message += '\n\n<b>ВСЕГО ЮЗЕРОВ: ' + str(i) + '</b>'
         await message.answer(text=users_message)
