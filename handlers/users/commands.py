@@ -45,6 +45,21 @@ async def append(message: types.Message):
             dem_words += '\n ' + ' ' + str(i+1) + '. ' + words[i]
         await message.answer(text=dem_words)
 
+@dp.message_handler(Command('users'))
+async def users(message: types.Message):
+    admin = Human.get(id=message.from_user.id)
+    if admin.id in admins:
+        users_message = 'Статистика по юзерам!'
+        i = 0
+        for user in Human.select():
+            i += 1
+            human = Human.get(id=user.id)
+            users_message += '\nid: ' + human.id + ', username: ' + human.username + ', name: ' + human.name + ', age: ' \
+            + human.age
+
+        users_message += '\n\n<b>ВСЕГО ЮЗЕРОВ: ' + str(i) + '</b>'
+        await message.answer(text=users_message)
+
 
 @dp.message_handler(state=ListAppend.msg)
 async def list_append(message: types.Message, state: FSMContext):
