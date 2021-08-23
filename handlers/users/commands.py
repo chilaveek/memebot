@@ -18,7 +18,7 @@ async def menu_show(message: types.Message):
 @dp.message_handler(Command('name'))
 async def name_change(message: types.Message):
     await message.answer('Хотите сменить имя? Хорошо, тогда следующим предложением напишите мне, как вас называть')
-    StartTest.name_change.set()
+    await StartTest.name_change.set()
 
 @dp.message_handler(state=StartTest.name_change)
 async def name_change_final(message: types.Message, state: FSMContext):
