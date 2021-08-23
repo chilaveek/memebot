@@ -7,7 +7,7 @@ from data.demotivator_words import words
 from data.peewee import Human
 from keyboards.default.menu import menu_kb
 from loader import dp
-from states.list_append import ListAppend
+from states.list_append import ListOperations
 from states.start_test import StartTest
 
 
@@ -34,7 +34,7 @@ async def append(message: types.Message):
     human = Human.get(id=message.from_user.id)
     if human.id in admins:
         await message.answer(text='круто, админчик. Пришли одну (пока что) фразу для добавления в следующем сообщении')
-        await ListAppend.msg.set()
+        await ListOperations.append.set()
 
 @dp.message_handler(Command('words'))
 async def append(message: types.Message):
@@ -61,9 +61,44 @@ async def users(message: types.Message):
         await message.answer(text=users_message)
 
 
-@dp.message_handler(state=ListAppend.msg)
+@dp.message_handler(state=ListOperations.append)
 async def list_append(message: types.Message, state: FSMContext):
     msg = message.text
     words.append(msg)
     await message.answer(text='Добавлено успешно!')
+    await state.finish()
+
+@dp.message_handler(Command('help_admins'))
+async def help_admins(message: types.Message):
+    admin = Human.get(id=message.from_user.id)
+    if admin.id in admins:
+        await message.answer(text=f'Серьёзно? Ты, {admin.name} админ и не знаешь свои команды наизусть??!'
+                                  f'\n---\n'
+                                  f'\n/words - Список фраз для демотиватора'
+                                  f'\n/new - Добавить <b>одну</b> фразу'
+                                  f'\n/users - Список Юзеров бота со статистикой'
+                                  f'\n/delword - Удаление <b>одной</b> фразы. Следующим сообщением нужно указать '
+                                  f'его номер в списке по команде /words'
+                             )
+    else:
+        await message.answer(text='Вы прекрасны сами по себе, но админом бота не являетесь... Можете попробовать '
+                                  'дописаться до владельца, если так хочется')
+
+@dp.message_handler(Command('delword'))
+async def users(message: types.Message):
+    admin = Human.get(id=message.from_user.id)
+    if admin.id in admins:
+        await message.answer('Отлично, админчик, теперь укажи номер фразы из списка /words . '
+                             '\n---\nЕсли команда введена случайно, напиши че нибудь текстом и всё, ок?')
+        await ListOperations.delete.set()
+
+@dp.message_handler(state=ListOperations.delete)
+async def delete_word(message: types.Message, state: FSMContext):
+    index = message.text
+    if index.isdigit() is True and index <= len(words) - 1:
+        words.pop(index-1)
+        await message.answer(text='Прекрасно, админчик, ты удалил слово под индексом ' + str(index))
+    else:
+        await message.answer(text='Ошибочка произшла в указании индекса, если так надо, введите команду /delword ещё раз')
+
     await state.finish()
