@@ -1,4 +1,3 @@
-from data.demotivator_words import words
 from data.peewee import Human, Words
 from utils.set_bot_commands import set_default_commands
 
@@ -9,8 +8,6 @@ async def on_startup(dp):
     middlewares.setup(dp)
     Words.create_table()
 
-    for word in words:
-       Words.get_or_create(phrase=word)
 
 
     from utils.notify_admins import on_startup_notify
