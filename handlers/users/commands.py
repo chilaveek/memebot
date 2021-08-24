@@ -1,15 +1,18 @@
 import os
 
-from aiogram import types
+from aiogram import types, Bot
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command
+from aiogram.utils.exceptions import Unauthorized
 
+from data import config
 from data.config import admins
 from data.peewee import Human, Words
 from keyboards.default.menu import menu_kb
 from loader import dp
 from states.list_append import ListOperations
 from states.message_for_admins import MessageForAdmins
+from states.message_for_all import MessageForAll
 from states.start_test import StartTest
 
 
@@ -81,7 +84,7 @@ async def users(message: types.Message):
 
         await message.answer_document(document=open('users.txt', 'rb'),
                                       caption='<b>ВСЕГО ЮЗЕРОВ: ' + str(i) + '</b>'
-                                              '\n<b>ВСЕГО СДЕЛАННЫХ МЕМОВ (с 24.08.21, 19:30): ' + str(all_memes) + '</b>')
+                                              '\n<b>ВСЕГО СДЕЛАННЫХ МЕМОВ\n(с 24.08.21, 19:30): ' + str(all_memes) + '</b>')
 
 
 @dp.message_handler(state=ListOperations.append)
@@ -139,3 +142,4 @@ async def delete_word(message: types.Message, state: FSMContext):
             text='Ошибочка произшла в указании индекса, если нужно, введите команду /delword ещё раз и индекс укажите числом')
 
     await state.finish()
+
