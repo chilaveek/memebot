@@ -22,8 +22,8 @@ start_kb = InlineKeyboardMarkup(row_width=2).row(
 
 mode_choice = InlineKeyboardMarkup(row_width=1).add(
 InlineKeyboardButton(text='Шакализатор', callback_data='shakalizator'),
-    InlineKeyboardButton(text='Демотиватор', callback_data='demotivator'),
-
+InlineKeyboardButton(text='Демотиватор', callback_data='demotivator'),
+InlineKeyboardButton(text='УльтраШакал+Демотиватор', callback_data='hybrid_shakal_dem'),
 )
 
 share_kb = InlineKeyboardMarkup(row_width=1).row(

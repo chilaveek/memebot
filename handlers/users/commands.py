@@ -9,6 +9,7 @@ from data.peewee import Human, Words
 from keyboards.default.menu import menu_kb
 from loader import dp
 from states.list_append import ListOperations
+from states.message_for_admins import MessageForAdmins
 from states.start_test import StartTest
 
 
@@ -39,7 +40,11 @@ async def append(message: types.Message):
     if human.id in admins:
         await message.answer(text='круто, админчик. Пришли одну (пока что) фразу для добавления в следующем сообщении')
         await ListOperations.append.set()
-
+    else:
+        await message.answer(text='У тебя конечно нет прав админчика, но можешь предложить фразу (или фразы), '
+                                  'просто напиши их в след. сообщении. Если расхотелось, просто пиши Отмена '
+                                  'и ничего не отправится')
+        await MessageForAdmins.message.set()
 
 @dp.message_handler(Command('words'))
 async def append(message: types.Message):
