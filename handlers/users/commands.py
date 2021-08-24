@@ -55,8 +55,7 @@ async def append(message: types.Message):
             file_base.write('\n ' + ' ' + str(i) + '. ' + word.phrase)
             file_base.close()
 
-        await message.answer(text='<b>ВСЕГО ФРАЗ: ' + str(i) + '</b>')
-        await message.answer_document(document=open('base.txt', 'rb'))
+        await message.answer_document(document=open('base.txt', 'rb'), caption='<b>ВСЕГО ФРАЗ: ' + str(i) + '</b>')
 
 
 @dp.message_handler(Command('users'))
@@ -73,8 +72,7 @@ async def users(message: types.Message):
                 human.id) + ', username: @' + human.username + ', name: ' + human.name + ', age: ' \
                              + str(human.age))
 
-        await message.answer(text='<b>ВСЕГО ЮЗЕРОВ: ' + str(i) + '</b>')
-        await message.answer_document(document=open('users.txt', 'rb'))
+        await message.answer_document(document=open('users.txt', 'rb'), caption='<b>ВСЕГО ЮЗЕРОВ: ' + str(i) + '</b>')
 
 
 @dp.message_handler(state=ListOperations.append)
