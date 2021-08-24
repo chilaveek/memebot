@@ -1,3 +1,4 @@
+import asyncio
 import os
 import random
 import string
@@ -48,6 +49,10 @@ async def photo_operation(message: types.Message):
     await message.photo[-1].download('PhotoEditor/sent_photos/' + file_name)
 
     if human.mode == 'Шакализатор':
+
+        await message.answer(text='Процесс запущен, дождитесь окончания')
+        await asyncio.sleep(random.randint(1, 20))
+
         name = shakalizator(file_name, 5)
         photo = open('PhotoEditor/ready_photos/' + name + '.jpeg', 'rb')
         await message.answer_photo(photo=photo)
@@ -55,6 +60,10 @@ async def photo_operation(message: types.Message):
         os.remove('PhotoEditor/ready_photos/' + name + '.jpeg')
 
     elif human.mode == 'Демотиватор':
+
+        await message.answer(text='Процесс запущен, дождитесь окончания')
+        await asyncio.sleep(random.randint(1, 20))
+
         i = 0
         for phrase in Words.select():
             i += 1
@@ -74,6 +83,10 @@ async def photo_operation(message: types.Message):
         os.remove(name)
 
     elif human.mode == 'УльтраШакал + Демотиватор':
+
+        await message.answer(text='Процесс запущен, дождитесь виртуализации')
+        await asyncio.sleep(random.randint(1, 20))
+
         i = 0
         for phrase in Words.select():
             i += 1
