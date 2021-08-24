@@ -69,15 +69,19 @@ async def users(message: types.Message):
     if admin.id in admins:
         open('users.txt', 'w').close()
         i = 0
+        all_memes = 0
         for user in Human.select():
             i += 1
             human = Human.get(id=user.id)
+            all_memes += human.memes
             file_users = open('users.txt', 'a+')
             file_users.write('\n\nid: ' + str(
                 human.id) + ', username: @' + human.username + ', name: ' + human.name + ', age: ' \
-                             + str(human.age))
+                             + str(human.age) + ', memes: ' + str(human.memes))
 
-        await message.answer_document(document=open('users.txt', 'rb'), caption='<b>ВСЕГО ЮЗЕРОВ: ' + str(i) + '</b>')
+        await message.answer_document(document=open('users.txt', 'rb'),
+                                      caption='<b>ВСЕГО ЮЗЕРОВ: ' + str(i) + '</b>'
+                                              '\n<b>ВСЕГО СДЕЛАННЫХ МЕМОВ (с 24.08.21, 19:30): ' + str(all_memes) + '</b>')
 
 
 @dp.message_handler(state=ListOperations.append)

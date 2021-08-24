@@ -19,6 +19,7 @@ class Human(Model):
     age = IntegerField(null=True)
     mode = CharField(default='Шакализатор')
     void = IntegerField(null=True)
+    memes = IntegerField(default=0)
     class Meta:
         database = db
 
