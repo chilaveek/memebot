@@ -51,7 +51,7 @@ async def photo_operation(message: types.Message):
     if human.mode == 'Шакализатор':
 
         await message.answer(text='Процесс запущен, дождитесь окончания')
-        await asyncio.sleep(random.randint(1, 20))
+        await asyncio.sleep(random.randint(1, 5))
 
         name = shakalizator(file_name, 5)
         photo = open('PhotoEditor/ready_photos/' + name + '.jpeg', 'rb')
@@ -62,7 +62,7 @@ async def photo_operation(message: types.Message):
     elif human.mode == 'Демотиватор':
 
         await message.answer(text='Процесс запущен, дождитесь окончания')
-        await asyncio.sleep(random.randint(1, 20))
+        await asyncio.sleep(random.randint(1, 5))
 
         i = 0
         for phrase in Words.select():
@@ -85,7 +85,7 @@ async def photo_operation(message: types.Message):
     elif human.mode == 'УльтраШакал + Демотиватор':
 
         await message.answer(text='Процесс запущен, дождитесь виртуализации')
-        await asyncio.sleep(random.randint(1, 20))
+        await asyncio.sleep(random.randint(1, 5))
 
         i = 0
         for phrase in Words.select():
