@@ -16,32 +16,35 @@ from loader import dp
 
 @dp.callback_query_handler(text='demotivator')
 async def demotivator_show(call: CallbackQuery):
-
     human = Human.get(id=call.from_user.id)
     human.mode = 'Демотиватор'
     human.save()
 
-    await call.message.edit_text(text=f'Режим сменён на {human.mode}\nПросто пришлите фотку и ждите.', reply_markup=mode_choice)
+    await call.message.edit_text(text=f'Режим сменён на {human.mode}\nПросто пришлите фотку и ждите.',
+                                 reply_markup=mode_choice)
+
 
 @dp.callback_query_handler(text='shakalizator')
 async def shakalizator_show(call: CallbackQuery):
-
     human = Human.get(id=call.from_user.id)
     human.mode = 'Шакализатор'
     human.save()
 
-    await call.message.edit_text(text=f'Режим сменён на {human.mode}\nПросто пришлите фотку и ждите.', reply_markup=mode_choice)
+    await call.message.edit_text(text=f'Режим сменён на {human.mode}\nПросто пришлите фотку и ждите.',
+                                 reply_markup=mode_choice)
+
 
 @dp.callback_query_handler(text='hybrid_shakal_dem')
 async def hybrid_show(call: CallbackQuery):
-
     human = Human.get(id=call.from_user.id)
     human.mode = 'УльтраШакал + Демотиватор'
     human.save()
 
-    await call.message.edit_text(text=f'Режим сменён на {human.mode}\nПросто пришлите фотку и ждите.', reply_markup=mode_choice)
+    await call.message.edit_text(text=f'Режим сменён на {human.mode}\nПросто пришлите фотку и ждите.',
+                                 reply_markup=mode_choice)
 
-@dp.message_handler(content_types=['photo'])
+
+@dp.message_handler(content_types=['photo'], state=None)
 async def photo_operation(message: types.Message):
     human = Human.get(id=message.from_user.id)
     letters = string.ascii_lowercase
@@ -109,3 +112,10 @@ async def photo_operation(message: types.Message):
         photo = open(name, 'rb')
         await message.answer_photo(photo=photo)
         os.remove(name)
+
+@dp.message_handler(text='📄 Мой Текст')
+async def your_text(message: types.Message):
+    human = Human.get(id=message.from_user.id)
+    human.mode = 'Мой Текст'
+    await message.answer(text='Понял. Сначала отправь первую строчку Демотиватора: ')
+    await D
