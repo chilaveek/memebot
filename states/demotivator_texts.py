@@ -21,7 +21,7 @@ class DemotivatorText(StatesGroup):
 @dp.message_handler(text='📝 Мой Текст')
 async def your_text(message: types.Message):
     human = Human.get(id=message.from_user.id)
-    await message.answer(text='Понял. Сначала отправь фотку')
+    await message.answer(text='Понял. Сделаем Демотиватор с твоим текстом. Сначала отправь фотку')
     await DemotivatorText.image.set()
 
 @dp.message_handler(state=DemotivatorText.image, content_types=['photo'])
@@ -37,7 +37,7 @@ async def image(message: types.Message, state: FSMContext):
 async def image(message: types.Message, state: FSMContext):
     msg = message.text
     await state.update_data(text1=msg)
-    await message.answer('Отлично. Теперь пришли нижнюю надпись')
+    await message.answer('Класс. Осталась нижняя надпись')
     await DemotivatorText.text2.set()
 
 @dp.message_handler(state=DemotivatorText.text2)

@@ -48,13 +48,20 @@ async def append(message: types.Message):
 async def users(message: types.Message):
     admin = Human.get(id=message.from_user.id)
     if admin.id in admins:
-        open('users.txt', 'w').close()
         i = 0
         all_memes = 0
         for user in Human.select():
             i += 1
+
             human = Human.get(id=user.id)
             all_memes += human.memes
+
+            if i == 1:
+                file_users = open('users.txt', 'w')
+                file_users.write('id: ' + str(
+                human.id) + ', username: @' + human.username + ', name: ' + human.name + ', age: ' \
+                             + str(human.age) + ', memes: ' + str(human.memes))
+
             file_users = open('users.txt', 'a+')
             file_users.write('\n\nid: ' + str(
                 human.id) + ', username: @' + human.username + ', name: ' + human.name + ', age: ' \
