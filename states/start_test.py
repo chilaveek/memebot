@@ -22,7 +22,7 @@ async def name_save(message: types.Message):
     await message.answer(
         text=f'Какое красивое имя, <b>{human.name}</b>! Смена имени кстати возможна по команде /name \n'
              f'Теперь разберёмся с твоим возрастом, сколько тебе лет?')
-    await StartTest.age.set()
+
 
 
 @dp.message_handler(state=StartTest.name_change)
