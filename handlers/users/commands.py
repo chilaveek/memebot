@@ -13,7 +13,6 @@ from loader import dp
 from states.list_append import ListOperations
 from states.message_for_admins import MessageForAdmins
 from states.message_for_all import MessageForAll
-from states.start_test import StartTest
 
 
 @dp.message_handler(Command('menu'))

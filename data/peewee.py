@@ -15,7 +15,7 @@ class Human(Model):
     id_primary = PrimaryKeyField(primary_key=1)
     id = IntegerField()
     username = CharField(null=True)
-    name = CharField(default='none')
+    name = CharField(default='Юзер')
     age = IntegerField(null=True)
     mode = CharField(default='Шакализатор')
     void = IntegerField(null=True)
