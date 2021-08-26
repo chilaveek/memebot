@@ -53,19 +53,18 @@ async def users(message: types.Message):
         for user in Human.select():
             i += 1
 
-            human = Human.get(id=user.id)
-            all_memes += human.memes
+            all_memes += user.memes
 
             if i == 1:
                 file_users = open('users.txt', 'w')
                 file_users.write('id: ' + str(
-                human.id) + ', username: @' + human.username + ', name: ' + human.name + ', age: ' \
-                             + str(human.age) + ', memes: ' + str(human.memes))
-
-            file_users = open('users.txt', 'a+')
-            file_users.write('\n\nid: ' + str(
-                human.id) + ', username: @' + human.username + ', name: ' + human.name + ', age: ' \
-                             + str(human.age) + ', memes: ' + str(human.memes))
+                user.id) + ', username: @' + user.username + ', name: ' + user.name + ', age: ' \
+                             + str(user.age) + ', memes: ' + str(user.memes))
+            if i > 1:
+                file_users = open('users.txt', 'a+')
+                file_users.write('\n\nid: ' + str(
+                    user.id) + ', username: @' + user.username + ', name: ' + user.name + ', age: ' \
+                                 + str(user.age) + ', memes: ' + str(user.memes))
 
         await message.answer_document(document=open('users.txt', 'rb'),
                                       caption='<b>ВСЕГО ЮЗЕРОВ: ' + str(i) + '</b>'
