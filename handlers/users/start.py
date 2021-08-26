@@ -11,7 +11,8 @@ from loader import dp
 
 @dp.message_handler(CommandStart(), state=None)
 async def bot_start(message: types.Message):
-    human = Human.get_or_create(id=message.from_user.id, username=message.from_user.username, name=message.from_user.first_name)
+    Human.get_or_create(id=message.from_user.id, username=message.from_user.username, name=message.from_user.first_name)
+    human = Human.get(id=message.from_user.id)
     await message.answer(f'Приветствую, {human.name}!', reply_markup=menu_kb)
 
 
